@@ -1,0 +1,378 @@
+
+UART.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         000001f2  00000000  00000000  00000074  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         00000000  00800060  00800060  00000266  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .bss          0000000a  00800060  00800060  00000266  2**0
+                  ALLOC
+  3 .comment      00000030  00000000  00000000  00000266  2**0
+                  CONTENTS, READONLY
+  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000298  2**2
+                  CONTENTS, READONLY
+  5 .debug_aranges 000000a0  00000000  00000000  000002d4  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_info   00000b86  00000000  00000000  00000374  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_abbrev 00000680  00000000  00000000  00000efa  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_line   000003f8  00000000  00000000  0000157a  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_frame  0000012c  00000000  00000000  00001974  2**2
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_str    000006bf  00000000  00000000  00001aa0  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_loc    000001a1  00000000  00000000  0000215f  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 12 .debug_ranges 00000080  00000000  00000000  00002300  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 2a 00 	jmp	0x54	; 0x54 <__ctors_end>
+   4:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+   8:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+   c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  10:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  14:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  18:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  1c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  20:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  24:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  28:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  2c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  30:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  34:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  38:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  3c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  40:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  44:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  48:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  4c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  50:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+
+00000054 <__ctors_end>:
+  54:	11 24       	eor	r1, r1
+  56:	1f be       	out	0x3f, r1	; 63
+  58:	cf e5       	ldi	r28, 0x5F	; 95
+  5a:	d8 e0       	ldi	r29, 0x08	; 8
+  5c:	de bf       	out	0x3e, r29	; 62
+  5e:	cd bf       	out	0x3d, r28	; 61
+
+00000060 <__do_clear_bss>:
+  60:	20 e0       	ldi	r18, 0x00	; 0
+  62:	a0 e6       	ldi	r26, 0x60	; 96
+  64:	b0 e0       	ldi	r27, 0x00	; 0
+  66:	01 c0       	rjmp	.+2      	; 0x6a <.do_clear_bss_start>
+
+00000068 <.do_clear_bss_loop>:
+  68:	1d 92       	st	X+, r1
+
+0000006a <.do_clear_bss_start>:
+  6a:	aa 36       	cpi	r26, 0x6A	; 106
+  6c:	b2 07       	cpc	r27, r18
+  6e:	e1 f7       	brne	.-8      	; 0x68 <.do_clear_bss_loop>
+  70:	0e 94 3e 00 	call	0x7c	; 0x7c <main>
+  74:	0c 94 f7 00 	jmp	0x1ee	; 0x1ee <_exit>
+
+00000078 <__bad_interrupt>:
+  78:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+0000007c <main>:
+#include "DIO.h"
+#include "UART.h"
+
+int main(void)
+{     
+    USART_GConfiguration.USART_MODE=USART_async;
+  7c:	e0 e6       	ldi	r30, 0x60	; 96
+  7e:	f0 e0       	ldi	r31, 0x00	; 0
+  80:	10 82       	st	Z, r1
+	USART_GConfiguration.async_speed=USART_async_normal;
+  82:	11 82       	std	Z+1, r1	; 0x01
+	USART_GConfiguration.data_size=USART_8_bit_char;
+  84:	83 e0       	ldi	r24, 0x03	; 3
+  86:	48 2f       	mov	r20, r24
+  88:	84 83       	std	Z+4, r24	; 0x04
+	//USART_GConfiguration.USART_TX=USART_tx_enable;
+	USART_GConfiguration.parity=USART_disable_parity;
+  8a:	15 82       	std	Z+5, r1	; 0x05
+	USART_GConfiguration.stop_bits=USART_1_stop_bit;
+  8c:	16 82       	std	Z+6, r1	; 0x06
+	USART_Init(USART_GConfiguration);
+  8e:	00 e0       	ldi	r16, 0x00	; 0
+  90:	10 e0       	ldi	r17, 0x00	; 0
+  92:	20 91 62 00 	lds	r18, 0x0062	; 0x800062 <__DATA_REGION_ORIGIN__+0x2>
+  96:	30 91 63 00 	lds	r19, 0x0063	; 0x800063 <__DATA_REGION_ORIGIN__+0x3>
+  9a:	50 e0       	ldi	r21, 0x00	; 0
+  9c:	60 e0       	ldi	r22, 0x00	; 0
+  9e:	70 91 67 00 	lds	r23, 0x0067	; 0x800067 <__DATA_REGION_ORIGIN__+0x7>
+  a2:	80 91 68 00 	lds	r24, 0x0068	; 0x800068 <__DATA_REGION_ORIGIN__+0x8>
+  a6:	90 91 69 00 	lds	r25, 0x0069	; 0x800069 <__DATA_REGION_ORIGIN__+0x9>
+  aa:	0e 94 5c 00 	call	0xb8	; 0xb8 <USART_Init>
+	USART_Transmit(10);
+  ae:	8a e0       	ldi	r24, 0x0A	; 10
+  b0:	90 e0       	ldi	r25, 0x00	; 0
+  b2:	0e 94 eb 00 	call	0x1d6	; 0x1d6 <USART_Transmit>
+  b6:	ff cf       	rjmp	.-2      	; 0xb6 <main+0x3a>
+
+000000b8 <USART_Init>:
+#include "types.h"
+#include "macros.h"
+#include "DIO.h"
+#include "UART.h"
+extern void USART_Init(struct USART_configuration config)
+{    
+  b8:	ef 92       	push	r14
+  ba:	ff 92       	push	r15
+  bc:	0f 93       	push	r16
+  be:	1f 93       	push	r17
+  c0:	cf 93       	push	r28
+  c2:	df 93       	push	r29
+  c4:	cd b7       	in	r28, 0x3d	; 61
+  c6:	de b7       	in	r29, 0x3e	; 62
+  c8:	2a 97       	sbiw	r28, 0x0a	; 10
+  ca:	0f b6       	in	r0, 0x3f	; 63
+  cc:	f8 94       	cli
+  ce:	de bf       	out	0x3e, r29	; 62
+  d0:	0f be       	out	0x3f, r0	; 63
+  d2:	cd bf       	out	0x3d, r28	; 61
+  d4:	09 83       	std	Y+1, r16	; 0x01
+  d6:	1a 83       	std	Y+2, r17	; 0x02
+  d8:	2b 83       	std	Y+3, r18	; 0x03
+  da:	3c 83       	std	Y+4, r19	; 0x04
+  dc:	4d 83       	std	Y+5, r20	; 0x05
+  de:	5e 83       	std	Y+6, r21	; 0x06
+  e0:	6f 83       	std	Y+7, r22	; 0x07
+  e2:	78 87       	std	Y+8, r23	; 0x08
+  e4:	89 87       	std	Y+9, r24	; 0x09
+  e6:	9a 87       	std	Y+10, r25	; 0x0a
+	u16 UBBR_VAL;
+	/************BAUD RATE Configuration according to mode of operation*************/
+	
+	if ((config.USART_MODE ==USART_async)&&(config.async_speed==USART_async_normal)) // Normal Asynchronous mode
+  e8:	01 11       	cpse	r16, r1
+  ea:	12 c0       	rjmp	.+36     	; 0x110 <USART_Init+0x58>
+  ec:	11 11       	cpse	r17, r1
+  ee:	07 c0       	rjmp	.+14     	; 0xfe <USART_Init+0x46>
+	{
+		UBBR_VAL = (u16)((USART_FOSC/(16*USART_BAUD))-1);
+		clr_bit(UCSRA,UCSRA_U2X);
+  f0:	59 98       	cbi	0x0b, 1	; 11
+	u16 UBBR_VAL;
+	/************BAUD RATE Configuration according to mode of operation*************/
+	
+	if ((config.USART_MODE ==USART_async)&&(config.async_speed==USART_async_normal)) // Normal Asynchronous mode
+	{
+		UBBR_VAL = (u16)((USART_FOSC/(16*USART_BAUD))-1);
+  f2:	0f 2e       	mov	r0, r31
+  f4:	f3 e3       	ldi	r31, 0x33	; 51
+  f6:	ef 2e       	mov	r14, r31
+  f8:	f0 2d       	mov	r31, r0
+  fa:	f1 2c       	mov	r15, r1
+		clr_bit(UCSRA,UCSRA_U2X);
+  fc:	11 c0       	rjmp	.+34     	; 0x120 <USART_Init+0x68>
+		
+	}
+	else if ((config.USART_MODE ==USART_async)&&(config.async_speed==USART_async_double)) // Double speed Asynchronous mode
+  fe:	11 30       	cpi	r17, 0x01	; 1
+ 100:	79 f4       	brne	.+30     	; 0x120 <USART_Init+0x68>
+	{
+		UBBR_VAL = (u16)((USART_FOSC/(8*USART_BAUD))-1);
+		set_bit(UCSRA,UCSRA_U2X);
+ 102:	59 9a       	sbi	0x0b, 1	; 11
+		clr_bit(UCSRA,UCSRA_U2X);
+		
+	}
+	else if ((config.USART_MODE ==USART_async)&&(config.async_speed==USART_async_double)) // Double speed Asynchronous mode
+	{
+		UBBR_VAL = (u16)((USART_FOSC/(8*USART_BAUD))-1);
+ 104:	0f 2e       	mov	r0, r31
+ 106:	f7 e6       	ldi	r31, 0x67	; 103
+ 108:	ef 2e       	mov	r14, r31
+ 10a:	f0 2d       	mov	r31, r0
+ 10c:	f1 2c       	mov	r15, r1
+		set_bit(UCSRA,UCSRA_U2X);
+ 10e:	08 c0       	rjmp	.+16     	; 0x120 <USART_Init+0x68>
+	}
+	else if (config.USART_MODE ==USART_sync) // synchronous mode
+ 110:	01 30       	cpi	r16, 0x01	; 1
+ 112:	31 f4       	brne	.+12     	; 0x120 <USART_Init+0x68>
+	{
+		UBBR_VAL = (u16)((USART_FOSC/(2*USART_BAUD))-1);
+ 114:	0f 2e       	mov	r0, r31
+ 116:	ff e9       	ldi	r31, 0x9F	; 159
+ 118:	ef 2e       	mov	r14, r31
+ 11a:	f0 2d       	mov	r31, r0
+ 11c:	ff 24       	eor	r15, r15
+ 11e:	f3 94       	inc	r15
+	}
+	UBRRL = (u8)UBBR_VAL;
+ 120:	e9 b8       	out	0x09, r14	; 9
+	UBBRH = (u8)(UBBR_VAL>>8);
+ 122:	f0 bc       	out	0x20, r15	; 32
+/*************************Enable transmitter**************************/
+if (config.USART_TX == USART_tx_enable)
+ 124:	21 30       	cpi	r18, 0x01	; 1
+ 126:	11 f4       	brne	.+4      	; 0x12c <USART_Init+0x74>
+{
+	set_bit(UCSRB,UCSRB_TXEN);
+ 128:	53 9a       	sbi	0x0a, 3	; 10
+ 12a:	03 c0       	rjmp	.+6      	; 0x132 <USART_Init+0x7a>
+}
+else if (config.USART_TX==USART_tx_disable)
+ 12c:	21 11       	cpse	r18, r1
+ 12e:	01 c0       	rjmp	.+2      	; 0x132 <USART_Init+0x7a>
+{
+	clr_bit(UCSRB,UCSRB_TXEN);
+ 130:	53 98       	cbi	0x0a, 3	; 10
+}
+/*******************Enable receiver **********************************/
+ if (config.USART_RX == USART_rx_enable)
+ 132:	31 30       	cpi	r19, 0x01	; 1
+ 134:	11 f4       	brne	.+4      	; 0x13a <USART_Init+0x82>
+ {
+	 set_bit(UCSRB,UCSRB_RXEN);
+ 136:	54 9a       	sbi	0x0a, 4	; 10
+ 138:	03 c0       	rjmp	.+6      	; 0x140 <USART_Init+0x88>
+ }
+ else if (config.USART_RX==USART_rx_disable)
+ 13a:	31 11       	cpse	r19, r1
+ 13c:	01 c0       	rjmp	.+2      	; 0x140 <USART_Init+0x88>
+ {
+	 clr_bit(UCSRB,UCSRB_RXEN);
+ 13e:	54 98       	cbi	0x0a, 4	; 10
+ }
+/****************Set charachter size**********************************/
+if (config.data_size==USART_9_bit_char)    //UCSZ2:0 ---> 111
+ 140:	44 30       	cpi	r20, 0x04	; 4
+ 142:	29 f4       	brne	.+10     	; 0x14e <USART_Init+0x96>
+{
+	set_bit(UCSRB,UCSRB_UCSZ2);
+ 144:	52 9a       	sbi	0x0a, 2	; 10
+	UCSRC |=(1<<UCSRC_URSEL)|(1<<UCSRC_UCSZ0)|(1<<UCSRC_UCSZ1);
+ 146:	80 b5       	in	r24, 0x20	; 32
+ 148:	86 68       	ori	r24, 0x86	; 134
+ 14a:	80 bd       	out	0x20, r24	; 32
+ 14c:	05 c0       	rjmp	.+10     	; 0x158 <USART_Init+0xa0>
+}
+else 
+{
+	UCSRC |=(1<<UCSRC_URSEL)|(config.data_size<<UCSRC_UCSZ0);
+ 14e:	80 b5       	in	r24, 0x20	; 32
+ 150:	44 0f       	add	r20, r20
+ 152:	80 68       	ori	r24, 0x80	; 128
+ 154:	48 2b       	or	r20, r24
+ 156:	40 bd       	out	0x20, r20	; 32
+}
+/**************************parity mode******************************/
+UCSRC |=(1<<UCSRC_URSEL)|(config.parity<<UCSRC_UPM0);
+ 158:	20 b5       	in	r18, 0x20	; 32
+ 15a:	9e 81       	ldd	r25, Y+6	; 0x06
+ 15c:	30 e1       	ldi	r19, 0x10	; 16
+ 15e:	93 9f       	mul	r25, r19
+ 160:	c0 01       	movw	r24, r0
+ 162:	11 24       	eor	r1, r1
+ 164:	92 2f       	mov	r25, r18
+ 166:	90 68       	ori	r25, 0x80	; 128
+ 168:	89 2b       	or	r24, r25
+ 16a:	80 bd       	out	0x20, r24	; 32
+/*************************stop bits********************************/
+UCSRC |=(1<<UCSRC_URSEL)|(config.stop_bits<<UCSRC_USBS);
+ 16c:	80 b5       	in	r24, 0x20	; 32
+ 16e:	9f 81       	ldd	r25, Y+7	; 0x07
+ 170:	99 0f       	add	r25, r25
+ 172:	99 0f       	add	r25, r25
+ 174:	99 0f       	add	r25, r25
+ 176:	80 68       	ori	r24, 0x80	; 128
+ 178:	89 2b       	or	r24, r25
+ 17a:	80 bd       	out	0x20, r24	; 32
+/**************************synch or asynch mode****************************/
+
+UCSRC |=(1<<UCSRC_URSEL)|(config.USART_MODE<<UCSRC_UMSEL);
+ 17c:	80 b5       	in	r24, 0x20	; 32
+ 17e:	90 e4       	ldi	r25, 0x40	; 64
+ 180:	09 9f       	mul	r16, r25
+ 182:	80 01       	movw	r16, r0
+ 184:	11 24       	eor	r1, r1
+ 186:	80 68       	ori	r24, 0x80	; 128
+ 188:	08 2b       	or	r16, r24
+ 18a:	00 bd       	out	0x20, r16	; 32
+/********************** RX interupt  *************************************/
+UCSRB |=(config.RXC_INT<<UCSRB_RXCIE);
+ 18c:	2a b1       	in	r18, 0x0a	; 10
+ 18e:	98 85       	ldd	r25, Y+8	; 0x08
+ 190:	30 e8       	ldi	r19, 0x80	; 128
+ 192:	93 9f       	mul	r25, r19
+ 194:	c0 01       	movw	r24, r0
+ 196:	11 24       	eor	r1, r1
+ 198:	82 2b       	or	r24, r18
+ 19a:	8a b9       	out	0x0a, r24	; 10
+/********************** tx interupt  *************************************/
+UCSRB |=(config.TXC_INT <<UCSRB_TXCIE);
+ 19c:	2a b1       	in	r18, 0x0a	; 10
+ 19e:	99 85       	ldd	r25, Y+9	; 0x09
+ 1a0:	30 e4       	ldi	r19, 0x40	; 64
+ 1a2:	93 9f       	mul	r25, r19
+ 1a4:	c0 01       	movw	r24, r0
+ 1a6:	11 24       	eor	r1, r1
+ 1a8:	82 2b       	or	r24, r18
+ 1aa:	8a b9       	out	0x0a, r24	; 10
+/********************** UDRIE interupt  *************************************/
+UCSRB |=(config.UDRIE_INT<<UCSRB_UDRIE);
+ 1ac:	2a b1       	in	r18, 0x0a	; 10
+ 1ae:	9a 85       	ldd	r25, Y+10	; 0x0a
+ 1b0:	30 e2       	ldi	r19, 0x20	; 32
+ 1b2:	93 9f       	mul	r25, r19
+ 1b4:	c0 01       	movw	r24, r0
+ 1b6:	11 24       	eor	r1, r1
+ 1b8:	82 2b       	or	r24, r18
+ 1ba:	8a b9       	out	0x0a, r24	; 10
+
+
+
+}
+ 1bc:	2a 96       	adiw	r28, 0x0a	; 10
+ 1be:	0f b6       	in	r0, 0x3f	; 63
+ 1c0:	f8 94       	cli
+ 1c2:	de bf       	out	0x3e, r29	; 62
+ 1c4:	0f be       	out	0x3f, r0	; 63
+ 1c6:	cd bf       	out	0x3d, r28	; 61
+ 1c8:	df 91       	pop	r29
+ 1ca:	cf 91       	pop	r28
+ 1cc:	1f 91       	pop	r17
+ 1ce:	0f 91       	pop	r16
+ 1d0:	ff 90       	pop	r15
+ 1d2:	ef 90       	pop	r14
+ 1d4:	08 95       	ret
+
+000001d6 <USART_Transmit>:
+extern void USART_Transmit(u16 data)
+{
+	while(!(UCSRA &(1<<UCSRA_UDRE)));
+ 1d6:	5d 9b       	sbis	0x0b, 5	; 11
+ 1d8:	fe cf       	rjmp	.-4      	; 0x1d6 <USART_Transmit>
+	if(USART_GConfiguration.data_size==USART_9_bit_char)
+ 1da:	20 91 64 00 	lds	r18, 0x0064	; 0x800064 <__DATA_REGION_ORIGIN__+0x4>
+ 1de:	24 30       	cpi	r18, 0x04	; 4
+ 1e0:	21 f4       	brne	.+8      	; 0x1ea <USART_Transmit+0x14>
+	{
+		UCSRB |=((data>>8)&1);
+ 1e2:	2a b1       	in	r18, 0x0a	; 10
+ 1e4:	91 70       	andi	r25, 0x01	; 1
+ 1e6:	92 2b       	or	r25, r18
+ 1e8:	9a b9       	out	0x0a, r25	; 10
+	}
+	UDR=(u8)data;
+ 1ea:	8c b9       	out	0x0c, r24	; 12
+ 1ec:	08 95       	ret
+
+000001ee <_exit>:
+ 1ee:	f8 94       	cli
+
+000001f0 <__stop_program>:
+ 1f0:	ff cf       	rjmp	.-2      	; 0x1f0 <__stop_program>
